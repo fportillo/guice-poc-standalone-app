@@ -18,16 +18,19 @@ public class GuiceHelloWorld {
     private RockPhrase rockPhrase;
     private RockPhrase annotatedRockPhrase;
     private RockPhrase anotherPhrase;
+    private RockPhrase pagode;
     private ComplexObject reallyComplex;
 
     @Inject public GuiceHelloWorld(RockPhrase rockPhrase,
                     @RollingStones RockPhrase annotatedRockPhrase,
                     @Named("Pink Floyd") RockPhrase anotherPhrase,
-                    ComplexObject reallyComplex) {
+                    ComplexObject reallyComplex,
+                    @Named("disgusting") RockPhrase pagode) {
         this.rockPhrase = rockPhrase;
         this.annotatedRockPhrase = annotatedRockPhrase;
         this.anotherPhrase = anotherPhrase;
         this.reallyComplex = reallyComplex;
+        this.pagode = pagode;
     }
 
     public String rockit() {
@@ -44,6 +47,10 @@ public class GuiceHelloWorld {
 
     public String doComplexStuff() {
         return reallyComplex.pretend();
+    }
+
+    public String pagodeAttempt() {
+        return pagode.quote();
     }
 
     public static void main(String[] args) {
@@ -66,5 +73,12 @@ public class GuiceHelloWorld {
 
         // @Provides annotation in module class
         System.out.println("Complex output: " + guiceHelloWorld.doComplexStuff());
+
+        // Should throw a runtime exception
+        try {
+            System.out.println("No pagode! " + guiceHelloWorld.pagodeAttempt());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

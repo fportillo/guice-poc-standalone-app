@@ -1,9 +1,11 @@
 package br.com.almana;
 
 import br.com.almana.binding.annotations.JdbcUrl;
+import br.com.almana.binding.annotations.NoPagode;
 import br.com.almana.binding.annotations.RollingStones;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 
 public class GuicePocModule extends AbstractModule {
@@ -21,6 +23,10 @@ public class GuicePocModule extends AbstractModule {
         // Binding to fixed prop values
         bind(String.class).annotatedWith(JdbcUrl.class).toInstance("jdbc:mysql://localhost/rocknroll");
         bind(Integer.class).annotatedWith(Names.named("containerPort")).toInstance(8080);
+
+        // AOP example
+        bind(RockPhrase.class).annotatedWith(Names.named("disgusting")).to(SPC.class);
+        bindInterceptor(Matchers.any(), Matchers.annotatedWith(NoPagode.class), new PagodeBlocker());
     }
 
     @Provides

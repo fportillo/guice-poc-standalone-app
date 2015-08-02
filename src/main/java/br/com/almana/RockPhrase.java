@@ -5,4 +5,5 @@ package br.com.almana;
  */
 public interface RockPhrase {
     String quote();
+    MusicalStyle getStyle();
 }
